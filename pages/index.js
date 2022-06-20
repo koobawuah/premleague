@@ -17,16 +17,24 @@ export async function getServerSideProps() {
     const data = await fetch(baseurl, options)
     const fixtures = await data.json()
 
+
+    const teamsEp = `https:///api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2021`
+    const teamData = await fetch(teamsEp, options)
+    const teams = await teamData.json()
+
     return {
         props: {
             fixtures,
+            teams,
         }
     }
 }
 
-export default function Home({fixtures}) {
+export default function Home({fixtures, teams}) {
 
-    const datafix = fixtures.response
+    const datafix = fixtures?.response
+    const teamsData = teams?.response
+    /* <Image src={item.team.logo} alt="Team crest" width={24} height={24}/>  */
 
   return (
     <div>
@@ -51,7 +59,18 @@ export default function Home({fixtures}) {
         <div className="mt-6 flex justify-between">
             <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => console.log(e.target.value)}>
                 <option value="2021"> All League Fixtures </option>
-                <option value="42"> Arsenal</option>
+                {
+                    teamsData && teamsData.sort((a, b) => { 
+                        let fa = a.team.name, fb = b.team.name;
+
+                        if (fa < fb) { return -1; }
+                        if (fa > fb) { return 1; }
+                        return 0;
+
+                    }).map( (item, index) => {
+                        return <option key={index} value={item.team.id}>{item.team.name}</option>
+                    })
+                }
             </select>
             <button onClick={ () => console.log('Clicked')} className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
                 +
