@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import { Layout, FixtureRow, FixturesContainer } from '../components'
 import { dateDay, timeDay } from '../atoms/atoms'
 
@@ -14,7 +15,7 @@ export async function getServerSideProps() {
         }
     }
     const data = await fetch(baseurl, options)
-    const fixtures = await data.jon()
+    const fixtures = await data.json()
 
     return {
         props: {
@@ -38,7 +39,7 @@ export default function Home({fixtures}) {
       <Layout>
         <div className="my-5">
             <div className="max-w-fit p-3 flex items-center bg-purple-700 border-transparent rounded-xl">
-                <span className="p-2 mr-3 border-transparent rounded-full bg-white"> <img src={datafix[0].league.logo} width={40} height={40} /> </span>
+                <span className="px-2 py-1 mr-3 border-transparent rounded-full bg-white"> <Image src={datafix[0].league.logo} width={40} height={40} layout="fixed" alt="EPL logo" /> </span>
                 <h1 className="font-black">Premier League</h1>
             </div>
         </div>
