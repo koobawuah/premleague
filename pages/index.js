@@ -1,10 +1,32 @@
 import Head from 'next/head'
 import { Layout, FixtureRow, FixturesContainer } from '../components'
+import { dateDay, timeDay } from '../atoms/atoms'
 
-export function getServerSideProps() {
+export async function getServerSideProps() {
+
+    const seasonyear = '2021'
+    const baseurl = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=39&season=${seasonyear}`
+    const options = {
+        method: 'GET',
+        headers: {
+			'X-RapidAPI-Key': 'd11830e3demsh20f2c94e390d674p17f9bejsne0f18afbff9d',
+		    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+        }
+    }
+    const data = await fetch(baseurl, options)
+    const fixtures = await data.jon()
+
+    return {
+        props: {
+            fixtures,
+        }
+    }
 }
 
-export default function Home() {
+export default function Home({fixtures}) {
+
+    const datafix = fixtures.response
+
   return (
     <div>
       <Head>
@@ -15,7 +37,8 @@ export default function Home() {
 
       <Layout>
         <div className="my-5">
-            <div className="max-w-fit p-3 bg-purple-700 border-transparent rounded-xl">
+            <div className="max-w-fit p-3 flex items-center bg-purple-700 border-transparent rounded-xl">
+                <span className="p-2 mr-3 border-transparent rounded-full bg-white"> <img src={datafix[0].league.logo} width={40} height={40} /> </span>
                 <h1 className="font-black">Premier League</h1>
             </div>
         </div>
@@ -24,9 +47,29 @@ export default function Home() {
         Google Ads
         </div>
             
-        <div className="">
+        <div className="mt-6 flex justify-between">
+            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => console.log(e.target.value)}>
+                <option value="2021"> All League Fixtures </option>
+                <option value="33"> Arsenal</option>
+            </select>
+            <button onClick={ () => console.log('Clicked')} className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
+                +
+            </button>
+        </div>
+        <div className="flex space-x-10 overflow-x-scroll py-4">
             <FixturesContainer>
-                <FixtureRow home="Sporting Team" homeIcon="icon" matchDate="DATE" matchTime="TIME" away="Team FC"  awayIcon="icon"/>
+                { datafix.map( (item, index) => (
+                    <FixtureRow 
+                        key={index} 
+                        home={item.teams.home.name}
+                        homeIcon={item.teams.home.logo}
+                        matchDate={dateDay(item.fixture.date) } 
+                        matchTime={timeDay(item.fixture.date)} 
+                        away={item.teams.away.name} 
+                        awayIcon={item.teams.away.logo}/>
+                    )
+                )
+                } 
             </FixturesContainer>
         </div>
       </Layout>
