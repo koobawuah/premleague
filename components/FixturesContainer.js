@@ -2,8 +2,8 @@
 const FixturesContainer = ({children}) => {
 
     return (
-        <div className="">
-            <div className="flex flex-row space-x-10 overflow-x-scroll py-4">
+        <div className="mx-auto">
+            <div className="">
                 {children}
             </div>
         </div>
