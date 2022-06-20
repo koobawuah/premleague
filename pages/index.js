@@ -50,7 +50,7 @@ export default function Home({fixtures}) {
         <div className="mt-6 flex justify-between">
             <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => console.log(e.target.value)}>
                 <option value="2021"> All League Fixtures </option>
-                <option value="33"> Arsenal</option>
+                <option value="42"> Arsenal</option>
             </select>
             <button onClick={ () => console.log('Clicked')} className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
                 +
