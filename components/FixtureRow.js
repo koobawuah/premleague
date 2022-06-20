@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import { toBase64, shimmer } from '../atoms/atoms'
 
 const FixtureRow = ({home, homeIcon, matchDate, matchTime, away, awayIcon}) => {
 
@@ -6,7 +8,7 @@ const FixtureRow = ({home, homeIcon, matchDate, matchTime, away, awayIcon}) => {
             <div className="my-4 py-4 px-6 bg-slate-900 flex justify-between items-center space-x-6 border-transparent rounded-lg">
                 <div className="flex flex-1 justify-between items-center space-x-4">
                     <p className="text-lg font-semibold">{home}</p> 
-                    <span><img src={homeIcon} width={50} height={50} /></span>
+                    <span><Image alt="Home team crest" src={homeIcon} width={50} height={50}  placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}/></span>
                 </div>
                 <div className="flex flex-2 flex-col space-y-2">
                     <ul>
@@ -15,7 +17,7 @@ const FixtureRow = ({home, homeIcon, matchDate, matchTime, away, awayIcon}) => {
                     </ul>
                 </div>
                 <div className="flex flex-1 justify-between items-center space-x-4">
-                    <span><img src={awayIcon} width={50} height={50}/> </span>
+                    <span><Image alt="Home team crest" src={awayIcon} width={50} height={50} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}/> </span>
                     <p className="text-lg font-semibold"> {away}</p>
                 </div>
             </div>
