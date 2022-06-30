@@ -1,3 +1,4 @@
+import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Layout, FixtureRow, FixturesContainer } from '../components'
@@ -5,7 +6,7 @@ import { dateDay, timeDay } from '../atoms/atoms'
 
 export async function getServerSideProps() {
 
-    const seasonyear = '2021'
+    const seasonyear = '2022'
     const baseurl = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=39&season=${seasonyear}`
     const options = {
         method: 'GET',
@@ -18,7 +19,7 @@ export async function getServerSideProps() {
     const fixtures = await data.json()
 
 
-    const teamsEp = `https:///api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2021`
+    const teamsEp = `https:///api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2022`
     const teamData = await fetch(teamsEp, options)
     const teams = await teamData.json()
 
@@ -34,7 +35,13 @@ export default function Home({fixtures, teams}) {
 
     const datafix = fixtures?.response
     const teamsData = teams?.response
-    /* <Image src={item.team.logo} alt="Team crest" width={24} height={24}/>  */
+    //const plTeamId = React.useRef(null)
+    const [plTeamId, setPLTeamId ] = React.useState(null)
+
+    const selectedTeam = (teamId, data) => {
+        if(teamId !== null) return data.filter( item => item.teams.home.id === teamId || item.teams.away.id === teamId)
+        return data;
+    }
 
   return (
     <div>
@@ -57,8 +64,8 @@ export default function Home({fixtures, teams}) {
         </div>
             
         <div className="mt-6 flex justify-between">
-            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => console.log(e.target.value)}>
-                <option value="2021"> All League Fixtures </option>
+            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => { setPLTeamId(e.target.value); {/** plTeamId.current = e.target.value; **/}  console.log(plTeamId); } }>
+                <option value="null"> All League Fixtures </option>
                 {
                     teamsData && teamsData.sort((a, b) => { 
                         let fa = a.team.name, fb = b.team.name;
@@ -78,17 +85,18 @@ export default function Home({fixtures, teams}) {
         </div>
         <div className="flex space-x-10 overflow-x-scroll py-4">
             <FixturesContainer>
-                { datafix.map( (item, index) => (
-                    <FixtureRow 
-                        key={index} 
-                        home={item.teams.home.name}
-                        homeIcon={item.teams.home.logo}
-                        matchDate={dateDay(item.fixture.date) } 
-                        matchTime={timeDay(item.fixture.date)} 
-                        away={item.teams.away.name} 
-                        awayIcon={item.teams.away.logo}/>
+                {  
+                        selectedTeam(plTeamId, datafix).map( (item, index) => (
+                            <FixtureRow 
+                                key={index} 
+                                home={item.teams.home.name}
+                                homeIcon={item.teams.home.logo}
+                                matchDate={dateDay(item.fixture.date)} 
+                                matchTime={timeDay(item.fixture.date)} 
+                                away={item.teams.away.name} 
+                                awayIcon={item.teams.away.logo}/>
+                        )
                     )
-                )
                 } 
             </FixturesContainer>
         </div>
