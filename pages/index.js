@@ -35,13 +35,6 @@ export default function Home({fixtures, teams}) {
 
     const datafix = fixtures?.response
     const teamsData = teams?.response
-    //const plTeamId = React.useRef(null)
-    const [plTeamId, setPLTeamId ] = React.useState(null)
-
-    const selectedTeam = (teamId, data) => {
-        if(teamId !== null) return data.filter( item => item.teams.home.id === teamId || item.teams.away.id === teamId)
-        return data;
-    }
 
   return (
     <div>
@@ -62,9 +55,9 @@ export default function Home({fixtures, teams}) {
         <div className="w-full h-16 bg-gray-900 flex justify-center items-center">
         Google Ads
         </div>
-            
+
         <div className="mt-6 flex justify-between">
-            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={ (e) => { setPLTeamId(e.target.value); {/** plTeamId.current = e.target.value; **/}  console.log(plTeamId); } }>
+            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={(e) => (console.log(e.target.value))}>
                 <option value="null"> All League Fixtures </option>
                 {
                     teamsData && teamsData.sort((a, b) => { 
@@ -86,7 +79,7 @@ export default function Home({fixtures, teams}) {
         <div className="flex space-x-10 overflow-x-scroll py-4">
             <FixturesContainer>
                 {  
-                        selectedTeam(plTeamId, datafix).map( (item, index) => (
+                        datafix.map( (item, index) => (
                             <FixtureRow 
                                 key={index} 
                                 home={item.teams.home.name}
