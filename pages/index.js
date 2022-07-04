@@ -1,10 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Layout, FixtureRow, FixturesContainer } from '../components'
-import { dateDay, timeDay } from '../atoms/atoms'
+import { Layout,  FixturesContainer, FixtureList } from '../components'
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
     const seasonyear = '2022'
     const baseurl = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=39&season=${seasonyear}`
@@ -35,6 +34,20 @@ export default function Home({fixtures, teams}) {
 
     const datafix = fixtures?.response
     const teamsData = teams?.response
+    const [arr, setArr] = React.useState([])
+
+    function addFixtureList() {
+        console.log('add')
+        setArr([...arr, Math.random() * 2000000000])
+        return console.log(arr)
+    }
+
+    function removeFixtureList(){
+        console.log('remove')
+        arr.pop()
+        setArr([...arr])
+        return console.log(arr)
+    }
 
   return (
     <div>
@@ -56,41 +69,27 @@ export default function Home({fixtures, teams}) {
         Google Ads
         </div>
 
-        <div className="mt-6 flex justify-between">
-            <select className="w-full py-5 px-3 text-lg font-medium bg-slate-800" onChange={(e) => (console.log(e.target.value))}>
-                <option value="null"> All League Fixtures </option>
-                {
-                    teamsData && teamsData.sort((a, b) => { 
-                        let fa = a.team.name, fb = b.team.name;
+      <div className="w-full flex flex-row space-between">
+            <div className="mt-6 flex">
+                <button onClick={ () => addFixtureList() } className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
+                    + Add New Column
+                </button>
+            </div>
 
-                        if (fa < fb) { return -1; }
-                        if (fa > fb) { return 1; }
-                        return 0;
-
-                    }).map( (item, index) => {
-                        return <option key={index} value={item.team.id}>{item.team.name}</option>
-                    })
-                }
-            </select>
-            <button onClick={ () => console.log('Clicked')} className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
-                +
-            </button>
+            <div className="mt-6 flex">
+                <button onClick={ () => removeFixtureList() } className="p-4 ml-4 text-xl font-bold text-white bg-slate-900">
+                    - Close Last Column
+                </button>
+            </div>
         </div>
+
         <div className="flex space-x-10 overflow-x-scroll py-4">
             <FixturesContainer>
-                {  
-                        datafix.map( (item, index) => (
-                            <FixtureRow 
-                                key={index} 
-                                home={item.teams.home.name}
-                                homeIcon={item.teams.home.logo}
-                                matchDate={dateDay(item.fixture.date)} 
-                                matchTime={timeDay(item.fixture.date)} 
-                                away={item.teams.away.name} 
-                                awayIcon={item.teams.away.logo}/>
-                        )
-                    )
-                } 
+                {
+                    arr.length == 0 
+                    ?(<FixtureList data={datafix} teamsData={teamsData} />)
+                    :arr.map( (i, index) => (<FixtureList key={index} data={datafix} teamsData={teamsData} name={i} />))
+                }
             </FixturesContainer>
         </div>
       </Layout>
@@ -98,3 +97,16 @@ export default function Home({fixtures, teams}) {
     </div>
   )
 }
+
+
+{/** 
+
+                            <FixtureCol
+                                key={index} 
+                                home={item.teams.home.name}
+                                homeIcon={item.teams.home.logo}
+                                matchDate={dateDay(item.fixture.date)} 
+                                matchTime={timeDay(item.fixture.date)} 
+                                away={item.teams.away.name} 
+                                awayIcon={item.teams.away.logo}/>
+**/}
