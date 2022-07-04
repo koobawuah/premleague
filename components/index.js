@@ -1,6 +1,6 @@
 import Layout from "./Layout";
-import FixtureRow from "./FixtureRow";
+import FixtureCol from "./FixtureCol";
 import FixtureList from "./FixtureList";
 import FixturesContainer from "./FixturesContainer";
 
-export { Layout, FixturesContainer, FixtureList, FixtureRow }
+export { Layout, FixturesContainer, FixtureList, FixtureCol }
