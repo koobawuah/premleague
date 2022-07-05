@@ -97,16 +97,3 @@ export default function Home({fixtures, teams}) {
     </div>
   )
 }
-
-
-{/** 
-
-                            <FixtureCol
-                                key={index} 
-                                home={item.teams.home.name}
-                                homeIcon={item.teams.home.logo}
-                                matchDate={dateDay(item.fixture.date)} 
-                                matchTime={timeDay(item.fixture.date)} 
-                                away={item.teams.away.name} 
-                                awayIcon={item.teams.away.logo}/>
-**/}
