@@ -98,5 +98,6 @@ export default function Home({fixtures, teams}) {
   )
 }
 
+//change logic for array and initial fixture display
 //deploy application online 
 //share and test application 
