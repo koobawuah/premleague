@@ -15,7 +15,9 @@ export async function getStaticProps() {
         }
     }
     const data = await fetch(baseurl, options)
-    const fixtures = await data.json()
+    const rawFixtures = await data.json()
+    const f = rawFixtures?.response.filter( stat => stat.fixture.status.short !== "FT" )
+    const fixtures = rawFixtures
 
 
     const teamsEp = `https:///api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2022`
@@ -26,15 +28,18 @@ export async function getStaticProps() {
         props: {
             fixtures,
             teams,
-        }
+            f,
+        },
+        revalidate: 60 * 60 * 24,
     }
 }
 
-export default function Home({fixtures, teams}) {
+export default function Home({fixtures, teams, f}) {
 
     const datafix = fixtures?.response
     const teamsData = teams?.response
     const [arr, setArr] = React.useState([])
+    console.log(f)
 
     function addFixtureList() {
         console.log('add')
@@ -88,7 +93,7 @@ export default function Home({fixtures, teams}) {
                 {
                     arr.length == 0 
                     ?(addFixtureList())
-                    :arr.map( (i, index) => (<FixtureList key={index} data={datafix} teamsData={teamsData} name={i} />))
+                    :arr.map( (i, index) => (<FixtureList key={index} data={f.length!==0?datafix:f} teamsData={teamsData} name={i} />))
                 }
             </FixturesContainer>
         </div>
