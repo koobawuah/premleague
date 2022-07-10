@@ -87,7 +87,7 @@ export default function Home({fixtures, teams}) {
             <FixturesContainer>
                 {
                     arr.length == 0 
-                    ?(<FixtureList data={datafix} teamsData={teamsData} />)
+                    ?(addFixtureList())
                     :arr.map( (i, index) => (<FixtureList key={index} data={datafix} teamsData={teamsData} name={i} />))
                 }
             </FixturesContainer>
