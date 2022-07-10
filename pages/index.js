@@ -39,19 +39,14 @@ export default function Home({fixtures, teams, f}) {
     const datafix = fixtures?.response
     const teamsData = teams?.response
     const [arr, setArr] = React.useState([])
-    console.log(f)
 
     function addFixtureList() {
-        console.log('add')
         setArr([...arr, Math.random() * 2000000000])
-        return console.log(arr)
     }
 
     function removeFixtureList(){
-        console.log('remove')
         arr.pop()
         setArr([...arr])
-        return console.log(arr)
     }
 
   return (
