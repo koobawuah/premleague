@@ -10,7 +10,7 @@ export async function getStaticProps() {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "d11830e3demsh20f2c94e390d674p17f9bejsne0f18afbff9d",
+      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
     },
   };
