@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Layout, FixturesContainer, FixtureList } from "../components";
 
 export async function getStaticProps() {
-  const rapidApiKey = process.env.RAPID_API_KEY;
+  const rapidApiKey = process.env.NEXT_PUBLIC_RAPID_API_KEY;
   const seasonyear = "2022";
   const leagueid = 39;
   const baseurl = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueid}&season=${seasonyear}`;
