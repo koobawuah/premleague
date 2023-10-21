@@ -56,8 +56,8 @@ export default function Home({ fixtures, teams, f }) {
         <title>Scoreboard - FixComp | Fixtures Analyzer </title>
         <meta name="description" content="We help you analyze your fixtures to understand and experience the game we love in a beautiful way!" />
         <link rel="icon" href="/favicon.ico" />
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3573939675911361"crossOrigin="anonymous" />
       </Head>
+      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3573939675911361"crossOrigin="anonymous" />
 
       <Layout>
         <div className="my-5">
