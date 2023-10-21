@@ -1,17 +1,17 @@
 import React from "react";
 import Head from "next/head";
+import Script from "next/script";
 import Image from "next/image";
 import { Layout, FixturesContainer, FixtureList } from "../components";
 
 export async function getStaticProps() {
-  const rapidApiKey = process.env.NEXT_PUBLIC_RAPID_API_KEY;
   const seasonyear = "2022";
   const leagueid = 39;
   const baseurl = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueid}&season=${seasonyear}`;
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": rapidApiKey,
+      "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY,
       "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
     },
   };
@@ -56,7 +56,7 @@ export default function Home({ fixtures, teams, f }) {
         <title>Scoreboard - FixComp | Fixtures Analyzer </title>
         <meta name="description" content="We help you analyze your fixtures to understand and experience the game we love in a beautiful way!" />
         <link rel="icon" href="/favicon.ico" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3573939675911361"crossOrigin="anonymous"></script>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3573939675911361"crossOrigin="anonymous" />
       </Head>
 
       <Layout>
